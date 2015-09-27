@@ -2,8 +2,58 @@
 <html>
   <head>
     <meta charset="utf-8">
+
+    <style>
+
+     body {
+         font-family: sans-serif;
+         max-width: 800px;
+         margin: 0 auto;
+     }
+     #indieauth-code {
+         width: 100%;
+         font-size: 2em;
+     }
+
+    </style>
+
+    <script>
+
+     function parseQueryString() {
+         var result = {};
+         var args = window.location.search.substring(1).split("&");
+         for (var i = 0 ; i < args.length ; i++) {
+             var arg = args[i];
+             if (arg.indexOf("=") == -1) {
+                 result[decodeURIComponent(arg)] = true;
+             } else {
+                 var kv = arg.split("=", 2);
+                 result[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
+             }
+         }
+         return result;
+     }
+
+     window.onload = function() {
+         var input = document.getElementById("indieauth-code");
+         input.onclick = function() {
+             this.select();
+         };
+
+         var args = parseQueryString();
+         input.value = args["code"];
+     };
+
+    </script>
+
+
   </head>
   <body>
-    Hello, world
+    <h1>Out of band callback for IndieAuth</h1>
+    <p>
+        Copy this string to the application.
+        <input id="indieauth-code"/>
+    </p>
+
   </body>
 </html>
